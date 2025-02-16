@@ -5,7 +5,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Models\Teas;
 use Inertia\Inertia;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use Illuminate\Http\Request;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -15,6 +17,7 @@ Route::get('/', function () {
     ]);
 });
 
+require __DIR__.'/auth.php';
 
 Route::get('/teas', function () {
     return Inertia::render('Teas', [
@@ -27,6 +30,20 @@ Route::get('/teas/{tea}', function (Teas $tea) {
         'tea' => $tea
     ]);
 })->name('tea.show');
+
+Route::get('/{user_id}/teas', function ($user_id) {
+    return Inertia::render('Teas', [
+        'teas' => Teas::where('user_id', $user_id)->get()
+    ]);
+})->name('teas.index');
+
+Route::post('/teas', function (Request $request) {
+    $tea = new Teas();
+    $tea->fill($request->all());
+    $tea->user_id = auth()->id();
+    $tea->save();
+    return redirect()->back();
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -1,11 +1,7 @@
+import { Tea } from '@/types/Tea.types';
 import { Head } from '@inertiajs/react';
 
-interface Tea {
-  id: number;
-  name: string;
-}
-
-const Tea = ({ tea }: { tea: Tea }) => (
+const TeaComponent = ({ tea }: { tea: Tea }) => (
   <>
     <Head title="Tea" />
     <div className="py-12">
@@ -21,4 +17,4 @@ const Tea = ({ tea }: { tea: Tea }) => (
   </>
 );
 
-export default Tea;
+export default TeaComponent;
