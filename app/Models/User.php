@@ -45,4 +45,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the teas owned by the user.
+     */
+    public function teas()
+    {
+        return $this->hasMany(Tea::class);
+    }
+
+    /**
+     * Get the tea types owned by the user.
+     */
+    public function teaTypes()
+    {
+        return $this->hasMany(TeaType::class);
+    }
 }
